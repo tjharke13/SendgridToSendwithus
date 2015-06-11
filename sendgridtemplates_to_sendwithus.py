@@ -183,9 +183,17 @@ def convertSendGridTemplatesToSendwithusFormat(sendgridJsonTemplates):
 		amountProcessed = amountProcessed + 1
 		convertedSendGridTemplates.append(templateInfo);
 
+	templateCount = len(convertedSendGridTemplates)
+	currentCount = 1
 	file = open(file_sendgrid_converted, 'w')
+	file.write("[")
 	for convertedTemplate in convertedSendGridTemplates :
-		file.write(json.dumps(convertedTemplate.__dict__) + '\n\n')
+		if(currentCount == templateCount):
+			file.write(json.dumps(convertedTemplate.__dict__) + '\n')
+		else:
+			file.write(json.dumps(convertedTemplate.__dict__) + ',\n')
+		currentCount = currentCount + 1
+	file.write("]")
 
 	print "Finished getting all converted sendgrid templates."
 	return convertedSendGridTemplates;
